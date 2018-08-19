@@ -36,17 +36,11 @@ function start() {
 
 function displayProducts() {
     connection.query(
-        // "SELECT * FROM products WHERE product_name = ?", ["guitar"], function(error, results, fields) {
         "SELECT * FROM products",
         function(error, results, fields) {
             if (error) throw error;
 
             // console.log("--- results ---",results);
-            
-            // var productArray = [];
-            // for (var n=0; n < results.length; n++) {
-            //     productArray.push(product);
-            // }
 
             console.log("Available Products:");
             for (var n=0; n < results.length; n++) {
@@ -59,7 +53,7 @@ function displayProducts() {
             }
         } // close callback func
     ); // close SQL query
-    setTimeout(userPrompt,1000 * .01); // doesn't run until displayProducts() finishes printing to console
+    setTimeout(userPrompt,1000 * .1); // doesn't run until displayProducts() finishes printing to console
 }; // close displayProducts()
 
 
@@ -134,6 +128,10 @@ function calculateOrder() {
     orderAmount = productPrice * userQuantityInput;
     console.log("Your order total is $" + orderAmount);
 }
+
+
+
+// NOTE TO SELF -- run "mysql.server start" in terminal first!
 
 
 
