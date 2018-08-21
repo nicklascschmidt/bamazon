@@ -28,6 +28,10 @@ var productArray = [];
 var userProductChoice;
 var userProductQuantity;
 var totalQuantity;
+var newProductName;
+var newDepartment;
+var newPrice;
+var newQuantity;
 
 
 function start() {
@@ -176,7 +180,7 @@ function addInventory() {
 
                 updateDatabase();
             }
-        ) // close SQL query
+        ); // close SQL query
 
         function updateDatabase() {
             connection.query(
@@ -186,9 +190,9 @@ function addInventory() {
                     if (error) throw error;
                     console.log(userProductChoice + " stock updated!");
                 }
-            ) // close SQL query
+            ); // close SQL query
             connection.end(); // ends SQL connection
-        }
+        }; // close updateDatabase()
     } // close getStock()
 } // close addInventory()
 
@@ -196,7 +200,52 @@ function addInventory() {
 // `Add New Product`, it should allow the manager to add a completely new product to the store.
 function addProduct() {
     console.log("addProduct running");
-}
+
+    inquirer.prompt([
+        {
+            name: "newProductName",
+            message: "What product are you adding?",
+            type: "input"
+        },
+        {
+            name: "newDepartment",
+            message: "What department?",
+            type: "input"
+        },
+        {
+            name: "newPrice",
+            message: "What price?",
+            type: "input"
+        },
+        {
+            name: "newQuantity",
+            message: "How many?",
+            type: "input"
+        }
+    ]).then(function(answers) {
+        newProductName = answers.newProductName;
+        newDepartment = answers.newDepartment;
+        newPrice = parseInt(answers.newPrice);
+        newQuantity = parseInt(answers.newQuantity);
+        
+        updateDatabaseNewProduct();
+
+    });
+
+    function updateDatabaseNewProduct() {
+        connection.query(
+            "INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES (? , ? , ? , ?)",
+            [newProductName, newDepartment, newPrice, newQuantity],
+            function(error, results, fields) {
+                if (error) throw error;
+                console.log(newProductName + " added!");
+            }
+        ); // close SQL query
+        connection.end(); // ends SQL connection
+    } // close updateDatabaseNewProduct()
+
+} // close addProduct()
+
 
 
 
